@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('* * * * *')
+    }
+
+    environment {
+        DOCKER_IMAGE = "nitishmedhi/my-analytics-docker"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            when {
+                branch pattern: ".+", comparator: "REGEXP"
+            }
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}")
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Build completed for branch: ${env.BRANCH_NAME}"
+        }
+    }
+}
+
