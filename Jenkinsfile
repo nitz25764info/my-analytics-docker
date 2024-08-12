@@ -1,5 +1,5 @@
 if (env.BRANCH_NAME == 'master') {
-    load 'Jenkinsfile.ci/Jenkinsfile.deploy'
+    load 'Jenkinsfile.cd/Jenkinsfile.deploy'
 } else {
-    load 'Jenkinsfile.cd/Jenkinsfile.build'
+    load 'Jenkinsfile.ci/Jenkinsfile.build'
 }
